@@ -6,6 +6,7 @@ import pino from 'pino'
 
 config()
 
+const prefix = process.env.PREFIX || '.'
 const mongoUrl = process.env.MONGO_URL
 const logger = pino({ level: 'silent' })
 
@@ -30,6 +31,38 @@ const startSock = async () => {
       }
     })
     sock.ev.on('creds.update', saveCreds)
+    sock.ev.on('messages.upsert', async (m) => {
+      const msg = m.messages[0];
+      if (!msg.message) return;
+
+      const messageType = Object.keys(msg.message)[0];
+      const sender = msg.key.remoteJid;
+      const text = msg.message.conversation || msg.message.extendedTextMessage?.text || '';
+      console.info(`New message from ${sender} (type: ${messageType}): ${text}`);
+
+      if (messageType === 'conversation' || messageType === 'extendedTextMessage') {
+        if (text.startsWith(prefix)) {
+          const command = text.slice(prefix.length).trim().toLowerCase();
+          const chatId = msg.key.remoteJid;
+
+          switch (command) {
+            case 'ping':
+              await sock.sendMessage(chatId, { text: 'OK' });
+              console.log(`Sent 'OK' response to ${chatId}`);
+              break;
+            case 'removecreds':
+              await clear();
+              console.log('Credentials removed');
+              await sock.sendMessage(chatId, { text: 'Credentials have been removed' });
+              break;
+            default:
+              await sock.sendMessage(chatId, { text: 'Perintah tidak dikenal' });
+              console.log(`Sent 'Perintah tidak dikenal' response to ${chatId}`);
+              break;
+          }
+        }
+      }
+    });
     setInterval(() => {
       const d = new Date()
       if (`${d.getHours()}:${d.getMinutes()}` === '7:0') {
