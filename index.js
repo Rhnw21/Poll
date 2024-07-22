@@ -1,12 +1,7 @@
 import { Browsers, makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys'
-import { config } from 'dotenv'
 import chalk from 'chalk'
 import pino from 'pino'
 
-config()
-
-const prefix = process.env.PREFIX || '.'
-const mongoUrl = process.env.MONGO_URL
 const logger = pino({ level: 'silent' })
 
 const startSock = async () => {
