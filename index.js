@@ -19,7 +19,7 @@ const startSock = async () => {
       auth: state
     })
     sock.ev.on('connection.update', (update) => {
-      const { connection, lastDisconnect } = update
+    const { connection, lastDisconnect } = update
       if (connection === 'close') {
         const shouldReconnect = (lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut
         if (shouldReconnect) {
