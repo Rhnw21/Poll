@@ -1,5 +1,4 @@
 import { Browsers, makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys'
-import { useMongoAuthState } from 'baileys-mongodb'
 import { config } from 'dotenv'
 import chalk from 'chalk'
 import pino from 'pino'
@@ -12,7 +11,7 @@ const logger = pino({ level: 'silent' })
 
 const startSock = async () => {
   try {
-    const { state, saveCreds } = await useMongoAuthState(mongoUrl, {})
+    const { state, saveCreds } = await useMultiFileAuthState('autb')
       const sock = makeWASocket({
       logger,
       browser: Browsers.ubuntu('Chrome'),
