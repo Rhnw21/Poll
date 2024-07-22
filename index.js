@@ -30,32 +30,6 @@ const startSock = async () => {
       }
     })
     sock.ev.on('creds.update', saveCreds)
-    sock.ev.on('messages.upsert', async (m) => {
-      const msg = m.messages[0]
-      if (!msg.message) return
-
-      const messageType = Object.keys(msg.message)[0]
-      const sender = msg.key.remoteJid
-      const text = msg.message.conversation || msg.message.extendedTextMessage.text
-     
-      console.log(`New message from ${sender} (type: ${messageType}): ${text}`);
-
-      if (messageType === 'conversation' || messageType === 'extendedTextMessage') {
-        if (text.startsWith(prefix)) {
-          const command = text.slice(prefix.length).trim().toLowerCase()
-          const chatId = msg.key.remoteJid
-
-          switch (command) {
-            case 'ping':
-              await sock.sendMessage(chatId, { text: 'OK' })
-              break
-            default:
-              await sock.sendMessage(chatId, { text: 'Perintah tidak dikenal' })
-              break
-          }
-        }
-      }
-    })
     setInterval(() => {
       const d = new Date()
       if (`${d.getHours()}:${d.getMinutes()}` === '7:0') {
@@ -70,7 +44,6 @@ const startSock = async () => {
     return sock
   } catch (error) {
     console.log(error)
-    setTimeout(() => startSock(), 5000)
   }
 }
 
