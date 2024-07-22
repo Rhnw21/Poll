@@ -12,7 +12,7 @@ const logger = pino({ level: 'silent' })
 const startSock = async () => {
   try {
     const { state, saveCreds } = await useMultiFileAuthState('autb')
-      const sock = makeWASocket({
+    const sock = makeWASocket({
       logger,
       browser: Browsers.ubuntu('Chrome'),
       printQRInTerminal: true,
