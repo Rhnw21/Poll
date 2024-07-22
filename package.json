@@ -1,0 +1,23 @@
+{
+  "name": "poll",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "AutoSendPolling"
+  ],
+  "author": "BR",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.5",
+    "baileys-mongodb": "^1.0.2",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
