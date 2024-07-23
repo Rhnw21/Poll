@@ -38,8 +38,8 @@ const startSock = async () => {
       if (`${d.getHours()}:${d.getMinutes()}` === '8:0') {
         const chatId = '120363045832731477@g.us'
         sock.sendMessage(chatId, {
-          text: { 'Wts Yt Famhead 4k' }
-        })
+          text: 'Wts Yt Famhead 4k' }
+        )
       }
     }, 60 * 1000)
   
