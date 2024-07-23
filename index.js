@@ -28,7 +28,7 @@ const startSock = async () => {
     setInterval(() => {
       const d = new Date()
       if (`${d.getHours()}:${d.getMinutes()}` === '7:5') {
-        const chatId = '120363293830779887'
+        const chatId = '120363293830779887@g.us'
         const pollValues = ['Isuk', 'Awan', 'Mole']
         sock.sendMessage(chatId, {
           poll: { name: 'Absen', values: pollValues, selectableCount: 1 }
