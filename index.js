@@ -27,7 +27,7 @@ const startSock = async () => {
     sock.ev.on('creds.update', saveCreds)
     setInterval(() => {
       const d = new Date()
-      if (`${d.getHours()}:${d.getMinutes()}` === '7:0') {
+      if (`${d.getHours()}:${d.getMinutes()}` === '7:5') {
         const chatId = '120363293830779887'
         const pollValues = ['Isuk', 'Awan', 'Mole']
         sock.sendMessage(chatId, {
