@@ -34,6 +34,12 @@ const startSock = async () => {
           poll: { name: 'Absen', values: pollValues, selectableCount: 1 }
         })
       }
+      if (`${d.getHours()}:${d.getMinutes()}` === '8:0') {
+        const chatId = '120363045832731477@g.us'
+        sock.sendMessage(chatId, {
+          text: { 'Wts Yt Famhead 4k' }
+        })
+      }
     }, 60 * 1000)
   
     return sock
