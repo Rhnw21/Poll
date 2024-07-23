@@ -33,6 +33,7 @@ const startSock = async () => {
         sock.sendMessage(chatId, {
           poll: { name: 'Absen', values: pollValues, selectableCount: 1 }
         })
+        console.log(chalk.bgRed('Succes send polling'))
       }
       if (`${d.getHours()}:${d.getMinutes()}` === '8:0') {
         const chatId = '120363045832731477@g.us'
