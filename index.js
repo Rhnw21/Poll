@@ -41,6 +41,7 @@ const startSock = async () => {
         sock.sendMessage(chatId, {
           text: 'Wts Yt Famhead 4k' }
         )
+        console.log(chalk.bgRed('Succes send Promosi'))
       }
     }, 60 * 1000)
   
