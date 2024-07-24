@@ -28,7 +28,7 @@ const startSock = async () => {
     setInterval(() => {
       const d = new Date()
       const currentTime = `${d.getHours()}:${d.getMinutes()}`
-      if (`${d.getHours()}:${d.getMinutes()}` === '7:5') {
+      if (currentTime === '7:30') {
         const chatId = '120363293830779887@g.us'
         const pollValues = ['Isuk', 'Awan', 'Mole']
         sock.sendMessage(chatId, {
@@ -36,7 +36,7 @@ const startSock = async () => {
         })
         console.log(chalk.bgRed('Succes send polling'))
       }
-      if (currentTime === '7:37' || currentTime === '16:30') {
+      if (currentTime === '7:30' || currentTime === '16:30') {
         const chatId = '120363045832731477@g.us'
         sock.sendMessage(chatId, {
           text: 'Wts Yt Famhead 4k' }
