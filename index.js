@@ -44,8 +44,6 @@ const startSock = async () => {
         console.log(chalk.bgRed('Succes send Promosi'))
       }
     }, 60 * 1000)
-  
-    return sock
   } catch (error) {
     console.log(error)
   }
