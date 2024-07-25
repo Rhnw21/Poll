@@ -14,15 +14,15 @@ const startSock = async () => {
       auth: state
     })
     sock.ev.on('connection.update', (update) => {
-    const { connection, lastDisconnect } = update
-      if (connection === 'close') {
-        const shouldReconnect = (lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut
-        if (shouldReconnect) {
-          startSock()
+      const { connection, lastDisconnect } = update
+        if (connection === 'close') {
+          const shouldReconnect = (lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut
+          if (shouldReconnect) {
+            startSock()
+          }
+        } else if (connection === 'open') {
+          console.log(chalk.bgGreen('isOpen'))
         }
-      } else if (connection === 'open') {
-        console.log(chalk.bgGreen('isOpen'))
-      }
     })
     sock.ev.on('creds.update', saveCreds)
     setInterval(() => {
