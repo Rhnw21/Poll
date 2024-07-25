@@ -36,7 +36,7 @@ const startSock = async () => {
         })
         console.log(chalk.bgRed('Succes send Polling'))
       }
-      if (currentTime === '7:30' || currentTime === '16:30') {
+      if (currentTime === '7:30' || currentTime === '12:30' || currentTime === '16:30') {
         const chatId = '120363045832731477@g.us'
         sock.sendMessage(chatId, {
           text: 'Wts Yt Famhead 4k' }
