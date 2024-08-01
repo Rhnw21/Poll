@@ -65,13 +65,13 @@ const startSock = async () => {
 	  if (currentTime === '7:30') {
 	    const chatId = '120363293830779887@g.us'
 	    const pollValues = ['Isuk', 'Awan']
-	    sock.sendMessages(chatId, {
+	    sock.sendMessage(chatId, {
 	      poll: { name: 'Absen', values: pollValues, selectableCount: 1 }
 	    })
 	  }
 	  if (currentTime === '7:30' || currentTime === '11:30' || currentTime === '16:30') {
 	    const chatId = '120363045832731477@g.us'
-	    sock.sendMessages(chatId, {
+	    sock.sendMessage(chatId, {
 	      text: 'Wts Yt Famhead 4k - Jaspay, Pm.'
 	    })
 	  }
