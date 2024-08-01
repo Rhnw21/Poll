@@ -64,7 +64,7 @@ const startSock = async () => {
 	
 	setInterval(() => {
 	  const d = new Date()
-	  const currentTime = `${d.getHours()}:${d.getMinutes()}
+	  const currentTime = `${d.getHours()}:${d.getMinutes()}`
 	  if (currentTime === '7:30' || currentTime === '11:30' || currentTime === '16:30') {
 	    const chatId = '120363045832731477@g.us'
 	    sock.sendMessage(chatId, {
