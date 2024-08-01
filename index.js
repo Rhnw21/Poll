@@ -3,6 +3,7 @@ import {
 	makeWASocket,
 	useMultiFileAuthState,
 	DisconnectReason,
+	makeInMemoryStore,
 	PHONENUMBER_MCC
 } from '@whiskeysockets/baileys'
 
@@ -11,6 +12,9 @@ import chalk from 'chalk'
 import { Boom } from '@hapi/boom'
 import { createInterface } from 'readline'
 
+import Config from './config.js'
+
+const store = await makeInMemoryStore()
 const rl = createInterface(process.stdin, process.stdout)
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 
@@ -22,6 +26,9 @@ const startSock = async () => {
 		browser: Browsers.ubuntu('Chrome'),
 		auth:state
 	})
+	
+	store.bind(sock.ev)
+	store.readFromFile(Config.storeFilePath);
 	
 	if (!sock.authState.creds.registered) {
 		console.clear()
@@ -43,17 +50,46 @@ const startSock = async () => {
 		}
 	}
 	
+	if (interval) clearInterval(interval);
+	interval = setInterval(() => store.writeToFile(Config.storeFilePath), 10000);
+	
 	sock.ev.on('connection.update', (update) => {
 		const { connection, lastDisconnect } = update
-		if (connection === 'close') {
-			let reason = new Boom(lastDisconnect?.error)?.output.statusCode
-			if (reason === DisconnectReason.badSession || reason === DisconnectReason.connectionClosed || reason === DisconnectReason.connectionLost || reason === DisconnectReason.connectionReplaced || reason === DisconnectReason.restartRequired || reason === DisconnectReason.timedOut) {
-				startSock()
+		const status = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
+		const statusMessage = lastDisconnect?.error?.output?.message || lastDisconnect?.error?.output?.payload?.message;
+		if (status) {
+			Config.logger.warn(`\nstatus: ${status}\nmessage: ${statusMessage}\nreason: ${DisconnectReason[status]}`.trim());
+			if (
+				status !== DisconnectReason.loggedOut &&
+				status !== DisconnectReason.connectionReplaced &&
+				status !== DisconnectReason.multideviceMismatch &&
+				status !== DisconnectReason.forbidden &&
+				status !== DisconnectReason.badSession
+			) {
+				Config.logger.info('Reloading..');
+				await startSock()
+			} else if (
+				status == DisconnectReason.forbidden ||
+				status == DisconnectReason.loggedOut ||
+				status == DisconnectReason.badSession
+			) {
+				Config.logger.error('Reason:', DisconnectReason[status])
+				try {
+					await Promise.all([Config.session, Config.storeFilePath]
+						.filter(file => existsSync(file))
+						.map(file => fs.rm(file, { recursive: true }))
+					);
+				} catch (e) {
+					config.logger.error(e)
+				}
+				
+				try { await this.ws.close(); } catch { };
+				this.ws.removeAllListeners();
+				
+				process.exit(0);
 			}
-		} else if (connection === 'open') {
-			console.log('[Connected] ' + JSON.stringify(sock.user.id.split(':')[0], null, 2))
 		}
-	})
+	}
 	
 	sock.ev.on('messages.upsert', async (m) => {
 		const msg = m.messages[0]
