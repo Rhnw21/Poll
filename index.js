@@ -55,8 +55,8 @@ const startSock = async () => {
 		}
 	})
 	
-	sock.ev.on('messages.upsert', ({ messages }) => {
-		console.log(messages)
+	sock.ev.on('messages.upsert', async (m) => {
+		console.log(m)
 	})
 	
 	sock.ev.on('creds.update', saveCreds)
