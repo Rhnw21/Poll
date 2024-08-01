@@ -76,7 +76,7 @@ const startSock = async () => {
 			) {
 				Config.logger.error('Reason:', DisconnectReason[status])
 				try {
-					await Promise.all([Config.session, Config.storeFilePath]
+					Promise.all([Config.session, Config.storeFilePath]
 						.filter(file => existsSync(file))
 						.map(file => fs.rm(file, { recursive: true }))
 					);
