@@ -90,7 +90,7 @@ const startSock = async () => {
 				process.exit(0);
 			}
 		}
-	}
+	})
 	
 	sock.ev.on('messages.upsert', async (m) => {
 		const msg = m.messages[0]
