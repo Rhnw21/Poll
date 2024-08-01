@@ -1,6 +1,7 @@
 import {
 	Browsers,
 	makeWASocket,
+	useMultiFileAuthState,
 	DisconnectReason,
 	PHONENUMBER_MCC
 } from '@whiskeysockets/baileys'
@@ -17,7 +18,7 @@ const rl = createInterface(process.stdin, process.stdout)
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 
 const startSock = async () => {
-	const { state, saveCreds } = await useMongoAuthState(Config.URL_MONGO, {})
+	const { state, saveCreds } = await useMultiFileAuthState('sessions')
 	const sock = makeWASocket({
 		logger: pino({ level: 'silent' }),
 		printQRInTerminal: false,
