@@ -76,7 +76,7 @@ const startSock = async () => {
 			) {
 				Config.logger.error('Reason:', DisconnectReason[status])
 				try {
-					Promise.all([Config.session, Config.storeFilePath]
+					;Promise.all([Config.session, Config.storeFilePath]
 						.filter(file => existsSync(file))
 						.map(file => fs.rm(file, { recursive: true }))
 					);
@@ -84,7 +84,7 @@ const startSock = async () => {
 					config.logger.error(e)
 				}
 				
-				try { await this.ws.close(); } catch { };
+				try { this.ws.close(); } catch { };
 				this.ws.removeAllListeners();
 				
 				process.exit(0);
