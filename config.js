@@ -1,3 +1,5 @@
+export const storeFilePath = 'database/store.json'
+
 export const logger = {
 	info(...args) {
 		console.log(
