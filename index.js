@@ -19,6 +19,7 @@ const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream
 const rl = createInterface(process.stdin, process.stdout)
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 
+let interval
 const startSock = async () => {
 	const { state, saveCreds } = await useMultiFileAuthState('sessions')
 	const sock = makeWASocket({
