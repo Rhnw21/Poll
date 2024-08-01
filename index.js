@@ -11,6 +11,7 @@ import pino from 'pino'
 import chalk from 'chalk'
 import { Boom } from '@hapi/boom'
 import { createInterface } from 'readline'
+import { existsSync, promises as fs } from 'fs'
 
 import Config from './config.js'
 
