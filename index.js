@@ -21,7 +21,7 @@ const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 
 let interval
 const startSock = async () => {
-	const { state, saveCreds } = await useMultiFileAuthState('sessions')
+	const { state, saveCreds } = await useMultiFileAuthState(Config.session)
 	const sock = makeWASocket({
 		logger: pino({ level: 'silent' }),
 		printQRInTerminal: false,
