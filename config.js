@@ -1,3 +1,4 @@
+export const session = 'database/sessions'
 export const storeFilePath = 'database/store.json'
 
 export const logger = {
@@ -39,6 +40,7 @@ export const logger = {
 }
 
 export default {
+	session,
 	storeFilePath,
 	logger
 }
