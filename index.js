@@ -9,10 +9,7 @@ import {
 import pino from 'pino'
 import chalk from 'chalk'
 import { Boom } from '@hapi/boom'
-import { useMongoAuthState } from 'baileys-mongodb'
 import { createInterface } from 'readline'
-
-import Config from './config.js'
 
 const rl = createInterface(process.stdin, process.stdout)
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
