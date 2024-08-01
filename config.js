@@ -1,5 +1,11 @@
+import chalk from 'chalk'
+import { format } from 'util'
+import { existsSync, mkdirSync } from 'fs'
+
 export const session = 'database/sessions'
 export const storeFilePath = 'database/store.json'
+
+if (!existsSync('database')) mkdirSync('database')
 
 export const logger = {
 	info(...args) {
