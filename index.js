@@ -68,7 +68,7 @@ const startSock = async () => {
 				status !== DisconnectReason.badSession
 			) {
 				Config.logger.info('Reloading..');
-				await startSock()
+				startSock()
 			} else if (
 				status == DisconnectReason.forbidden ||
 				status == DisconnectReason.loggedOut ||
