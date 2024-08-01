@@ -15,7 +15,7 @@ import { existsSync, promises as fs } from 'fs'
 
 import Config from './config.js'
 
-const store = await makeInMemoryStore()
+const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
 const rl = createInterface(process.stdin, process.stdout)
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 
@@ -29,7 +29,7 @@ const startSock = async () => {
 	})
 	
 	store.bind(sock.ev)
-	store.readFromFile(Config.storeFilePath);
+	store.readFromFile(Config.storeFilePath)
 	
 	if (!sock.authState.creds.registered) {
 		console.clear()
@@ -51,15 +51,15 @@ const startSock = async () => {
 		}
 	}
 	
-	if (interval) clearInterval(interval);
-	interval = setInterval(() => store.writeToFile(Config.storeFilePath), 10000);
+	if (interval) clearInterval(interval)
+	interval = setInterval(() => store.writeToFile(Config.storeFilePath), 10000)
 	
 	sock.ev.on('connection.update', (update) => {
 		const { connection, lastDisconnect } = update
-		const status = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
-		const statusMessage = lastDisconnect?.error?.output?.message || lastDisconnect?.error?.output?.payload?.message;
+		const status = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode
+		const statusMessage = lastDisconnect?.error?.output?.message || lastDisconnect?.error?.output?.payload?.message
 		if (status) {
-			Config.logger.warn(`\nstatus: ${status}\nmessage: ${statusMessage}\nreason: ${DisconnectReason[status]}`.trim());
+			Config.logger.warn(`\nstatus: ${status}\nmessage: ${statusMessage}\nreason: ${DisconnectReason[status]}`.trim())
 			if (
 				status !== DisconnectReason.loggedOut &&
 				status !== DisconnectReason.connectionReplaced &&
@@ -67,7 +67,7 @@ const startSock = async () => {
 				status !== DisconnectReason.forbidden &&
 				status !== DisconnectReason.badSession
 			) {
-				Config.logger.info('Reloading..');
+				Config.logger.info('Reloading..')
 				startSock()
 			} else if (
 				status == DisconnectReason.forbidden ||
@@ -76,18 +76,18 @@ const startSock = async () => {
 			) {
 				Config.logger.error('Reason:', DisconnectReason[status])
 				try {
-					;Promise.all([Config.session, Config.storeFilePath]
+					Promise.all([Config.session, Config.storeFilePath]
 						.filter(file => existsSync(file))
 						.map(file => fs.rm(file, { recursive: true }))
-					);
+					)
 				} catch (e) {
 					config.logger.error(e)
 				}
 				
-				try { this.ws.close(); } catch { };
-				this.ws.removeAllListeners();
+				try { this.ws.close() } catch { }
+				this.ws.removeAllListeners()
 				
-				process.exit(0);
+				process.exit(0)
 			}
 		}
 	})
