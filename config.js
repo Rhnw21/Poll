@@ -39,5 +39,6 @@ export const logger = {
 }
 
 export default {
+	storeFilePath,
 	logger
 }
