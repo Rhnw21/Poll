@@ -106,7 +106,7 @@ const startSock = async () => {
 	  if (currentTime === '7:30' || currentTime === '11:30' || currentTime === '16:30') {
 	    const chatId = '120363045832731477@g.us'
 	    sock.sendMessage(chatId, {
-	      text: 'Wts Yt Famhead 4k/Jaspay, Pm.'
+	      text: 'Wts Yt Famhead 4k/Jaspay, Pm!'
 	    })
 	  }
 	}, 60 * 1000)
